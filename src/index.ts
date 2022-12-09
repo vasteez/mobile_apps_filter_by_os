@@ -1,8 +1,12 @@
-import mockMobileApps from "./data/mobile_apps_mockdata"
+import mockMobileApps from "./data/mobile_apps_grouped_mockdata"
 import mockRules from "./data/rules_mockdata"
+import { isWithinMinimalSupportDateRange } from "./helpers/dates"
 import { getTrueVersionNumber } from "./helpers/filter"
+import { Rules } from "./models/rules"
 
-function findAllDeprecatedDevices(rules: any, devices: any) {
+function findAllDeprecatedDevices(rules: Rules, devices: any) {
+  const withinMinimalSupport = isWithinMinimalSupportDateRange(rules, Date.now())
+
   const highestDeprecatedVersionNumber = getTrueVersionNumber(rules.default.supportUpTo.android)
   const highestDeprecatedVersionNumberBuffer = getTrueVersionNumber(rules.default.minimalSupportBuffer.supportUpTo.android)
 
@@ -16,9 +20,9 @@ function findAllDeprecatedDevices(rules: any, devices: any) {
 
     if (trueVersionNumber <= highestDeprecatedVersionNumberBuffer)
       notSupported.push(device)
-    else if (trueVersionNumber > highestDeprecatedVersionNumberBuffer && trueVersionNumber <= highestDeprecatedVersionNumber)
+    else if ((trueVersionNumber > highestDeprecatedVersionNumberBuffer && trueVersionNumber <= highestDeprecatedVersionNumber) && withinMinimalSupport) {
       minimallySupported.push(device)
-    else
+    } else
       fullySupported.push(device)
 
   })
@@ -26,6 +30,7 @@ function findAllDeprecatedDevices(rules: any, devices: any) {
   return { fullySupported, minimallySupported, notSupported }
 }
 
+console.time('Benchmark Test');
 
 
 const { fullySupported, minimallySupported, notSupported } = findAllDeprecatedDevices(mockRules, mockMobileApps)
@@ -33,3 +38,4 @@ const { fullySupported, minimallySupported, notSupported } = findAllDeprecatedDe
 console.log("Full Supported: ", fullySupported)
 console.log("Min Supported: ", minimallySupported)
 console.log("Not Supported: ", notSupported)
+console.timeEnd('Benchmark Test');
