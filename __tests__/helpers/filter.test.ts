@@ -1,4 +1,23 @@
-import { sanitizeVersionNumber } from '../../src/helpers/filter'
+import { getTrueVersionNumber, sanitizeVersionNumber } from '../../src/helpers/filter'
+
+describe("getTrueVersionNumber", () => {
+  test("with one digit", () => {
+    const trueVersion = getTrueVersionNumber('9')
+    expect(trueVersion).toBe(900)
+  })
+  test("with two digits", () => {
+    const trueVersion = getTrueVersionNumber('9.1')
+    expect(trueVersion).toBe(910)
+  })
+  test("with three digits", () => {
+    const trueVersion = getTrueVersionNumber('9.6.1')
+    expect(trueVersion).toBe(961)
+  })
+  test("with four digits", () => {
+    const trueVersion = getTrueVersionNumber('10.0.2.0')
+    expect(trueVersion).toBe(1002)
+  })
+})
 
 describe("sanitizeVersionNumber", () => {
   test("Sanitize with phone prefix: Android", () => {
