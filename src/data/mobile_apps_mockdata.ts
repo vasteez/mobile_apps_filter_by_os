@@ -39,9 +39,9 @@ export default [
     "device_os_version": "Android: 8.2"
   },
   {
-    "device_os_version": "Android: 7.0"
+    "device_os_version": "Android: 7.0.1"
   },
   {
-    "device_os_version": "Android: 7.0"
+    "device_os_version": "Android: 7.1.1"
   }
 ]
