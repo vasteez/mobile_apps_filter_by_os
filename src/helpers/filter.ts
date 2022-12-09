@@ -23,7 +23,7 @@ export function getTrueVersionNumber(deviceOsVersion: string) {
  *
  * Ex. Input: 'Android: 9.3' -> Output: ['9','3']
  */
-function sanitizeVersionNumber(rawVersionNumber: string): string[] {
+export function sanitizeVersionNumber(rawVersionNumber: string): string[] {
   if (rawVersionNumber.includes("Android:") || rawVersionNumber.includes("iOS:"))
     return rawVersionNumber.split(':')[1].replace(' ', '').split('.')
   else
