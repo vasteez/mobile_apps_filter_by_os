@@ -5,7 +5,11 @@ export default {
       ios: '12'
     },
     minimalSupportBuffer: {
-      startRule: 'January 1, 2023',
+      supportUpTo: {
+        android: '8.1.0',
+        ios: '11'
+      },
+      startRule: 'December 1, 2022',
       endOfLife: 'February 1, 2023'
     }
   }
